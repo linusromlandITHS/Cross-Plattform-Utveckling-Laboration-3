@@ -4,7 +4,7 @@
   <img src="https://raw.githubusercontent.com/FerryDepartures/FerryDepartures_docs/master/logo/icon.svg" width="224px"/><br/>
   Ferry Depatures
 </h1>
-<p align="center">Ferry Departures is a app to display the upcomming depatures for ferries operated by the Swedish Färjerederiet (Trafikverket).<br>
+<p align="center">Ferry Departures is a app to display the upcoming depatures for ferries operated by the Swedish Färjerederiet (Trafikverket).<br>
 <a href="https://github.com/FerryDepartures/FerryDepartures_app/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-red?style=for-the-badge&logo=none" alt="license" /></a></p>
 
 ## 📝 Contact
