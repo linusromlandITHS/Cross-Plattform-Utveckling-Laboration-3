@@ -1,7 +1,8 @@
-import { View, Text } from 'react-native';
+import { View, Text, FlatList, Button, SafeAreaView } from 'react-native';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import dayjs from 'dayjs';
 
 export default () => {
 	const navigation = useNavigation();
@@ -19,6 +20,11 @@ export default () => {
 
 			getRoute();
 		})();
+
+		//Run on leave
+		navigation.addListener('blur', () => {
+			AsyncStorage.removeItem('route');
+		});
 	}, []);
 
 	async function getRoute() {
@@ -33,20 +39,122 @@ export default () => {
 		const request = await fetch(`https://api.ferrydepartures.com/api/route/${route['Id']}`);
 		const response = await request.json();
 		setDepartures(response.departures);
+
+		//Run function again when next departure is scheduled
+		const nextDeparture = response.departures[0];
+		const nextDepartureTime = nextDeparture['DepartureTime'];
+		const nextDepartureTimeDate = dayjs(nextDepartureTime);
+		const nextDepartureTimeDateUnix = nextDepartureTimeDate.unix();
+		const nextDepartureTimeDateUnixMs = nextDepartureTimeDateUnix * 1000;
+		const nextDepartureTimeDateUnixMsMs = nextDepartureTimeDateUnixMs + 1000;
+		setTimeout(getRoute, nextDepartureTimeDateUnixMsMs);
+	}
+
+	async function handleChangeRoute() {
+		await AsyncStorage.removeItem('route');
+
+		navigation.navigate('Home');
+	}
+
+	function isToday(date: Date) {
+		const now = new Date();
+		date = new Date(date);
+		return date.setHours(0, 0, 0, 0) === now.setHours(0, 0, 0, 0);
 	}
 
 	return (
-		<View style={{ flex: 1, alignItems: 'center', marginTop: 60, marginBottom: 95 }}>
+		<SafeAreaView style={{ flex: 1, marginTop: 60, marginLeft: 15, marginRight: 15, marginBottom: 95 }}>
+			<View
+				style={{
+					flexDirection: 'row',
+					justifyContent: 'space-between',
+					alignItems: 'center'
+				}}>
+				<Text
+					style={{
+						fontSize: 35,
+						width: '60%',
+						textAlign: 'left',
+						marginBottom: 5
+					}}
+					numberOfLines={1}>
+					{routeName}
+				</Text>
+				<Button title='Change route' onPress={handleChangeRoute}></Button>
+			</View>
 			<Text
 				style={{
-					fontSize: 35,
-					width: '95%',
+					fontSize: 20,
+					width: '100%',
 					textAlign: 'left',
-					marginLeft: 15,
 					marginBottom: 5
 				}}>
-				{routeName}
+				Next departure:
+				{departures.length > 0 ? dayjs(departures[0]['DepartureTime']).format('HH:mm') : 'No departures'}
 			</Text>
-		</View>
+			{departures.length > 0 && (
+				<>
+					<Text
+						style={{
+							fontSize: 20,
+
+							width: '100%',
+							textAlign: 'left',
+							marginBottom: 25
+						}}>
+						{departures[0]['FromHarbor']['Name']} → {departures[0]['ToHarbor']['Name']}
+						{departures[0]['Route']['Type']['Id'] == 1 && <Text> (Returning trip)</Text>}
+					</Text>
+
+					<Text
+						style={{
+							fontSize: 20,
+							width: '100%',
+							textAlign: 'left',
+							marginBottom: 5
+						}}>
+						More Depatures:
+					</Text>
+					<FlatList
+						style={{
+							width: '100%',
+							marginBottom: 5
+						}}
+						data={departures.slice(1)}
+						renderItem={({ item, index }) => (
+							<View
+								key={item}
+								style={{
+									width: '100%',
+									backgroundColor: index % 2 == 0 ? '#f5f5f5' : '#ffffff',
+									paddingBottom: 10,
+									paddingTop: 10,
+									paddingLeft: 5
+								}}>
+								<Text
+									style={{
+										fontSize: 20,
+										textAlign: 'left',
+										marginBottom: 5
+									}}>
+									{!isToday(item['DepartureTime']) && 'Tomorrow at '}
+									{dayjs(item['DepartureTime']).format('HH:mm')}
+								</Text>
+								<Text
+									style={{
+										fontSize: 15,
+										textAlign: 'left',
+										marginBottom: 5
+									}}>
+									{item['FromHarbor']['Name']} → {item['ToHarbor']['Name']}
+									{item['Route']['Type']['Id'] == 1 && <Text> (Returning trip)</Text>}
+								</Text>
+							</View>
+						)}
+						keyExtractor={(departure) => departure['Id']}
+					/>
+				</>
+			)}
+		</SafeAreaView>
 	);
 };
