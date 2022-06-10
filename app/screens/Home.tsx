@@ -2,8 +2,7 @@
 import { View, Text, InputAccessoryView, TextInput, Button, ScrollView, Platform, Pressable } from 'react-native';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import { preventAutoHideAsync, hideAsync } from 'expo-splash-screen';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 
 //Internal dependencies
@@ -11,9 +10,6 @@ import AboutModal from '../components/AboutModal';
 import WelcomeModal from '../components/WelcomeModal';
 
 export default () => {
-	//Keep splash screen from auto-hiding
-	preventAutoHideAsync();
-
 	// AsyncStorage.removeItem('hasSeenWelcome');
 
 	const navigation = useNavigation();
@@ -37,7 +33,11 @@ export default () => {
 
 				const route = await AsyncStorage.getItem('route');
 				if (route) {
-					navigation.navigate('Route');
+					navigation.dispatch(
+						CommonActions.navigate({
+							name: 'Route'
+						})
+					);
 					return;
 				}
 
@@ -53,14 +53,15 @@ export default () => {
 		const response = await request.json();
 		const data = response.routes;
 		setRoutes(data);
-
-		//Hide splash screen
-		hideAsync();
 	}
 
 	async function handleRouteSelection(route: any) {
 		await AsyncStorage.setItem('route', JSON.stringify(route));
-		navigation.navigate('Route');
+		navigation.dispatch(
+			CommonActions.navigate({
+				name: 'Route'
+			})
+		);
 	}
 
 	return (
@@ -126,6 +127,7 @@ export default () => {
 								}}>
 								<Button
 									title={route['Name']}
+									color={Platform.OS === 'android' ? '#8caac2' : ''}
 									onPress={() => {
 										handleRouteSelection(route);
 									}}

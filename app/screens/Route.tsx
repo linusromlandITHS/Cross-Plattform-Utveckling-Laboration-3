@@ -1,7 +1,7 @@
 import { View, Text, FlatList, Button, SafeAreaView, Platform, RefreshControl } from 'react-native';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import dayjs from 'dayjs';
 
 export default () => {
@@ -16,7 +16,11 @@ export default () => {
 		(async () => {
 			const welcome = await AsyncStorage.getItem('welcome');
 			if (welcome !== 'true') {
-				navigation.navigate('Welcome');
+				navigation.dispatch(
+					CommonActions.navigate({
+						name: 'Welcome'
+					})
+				);
 				return;
 			}
 
@@ -32,7 +36,11 @@ export default () => {
 	async function getRoute() {
 		const route = JSON.parse((await AsyncStorage.getItem('route')) as string) as any;
 		if (route === null) {
-			navigation.navigate('Home');
+			navigation.dispatch(
+				CommonActions.navigate({
+					name: 'Home'
+				})
+			);
 			return;
 		}
 
@@ -57,8 +65,11 @@ export default () => {
 
 	async function handleChangeRoute() {
 		await AsyncStorage.removeItem('route');
-
-		navigation.navigate('Home');
+		navigation.dispatch(
+			CommonActions.navigate({
+				name: 'Home'
+			})
+		);
 	}
 
 	function isToday(date: Date) {

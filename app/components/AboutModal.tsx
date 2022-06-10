@@ -43,8 +43,8 @@ export default (props: any) => {
 						Ferry Departures
 					</Text>
 					<Text style={defaultTextStyle}>This is a app to show the upcoming departures of ferries operated by the Swedish Färjerederiet (Trafikverket).</Text>
-					<Text style={defaultTextStyle}>It's is not a official app of the Swedish Färjerederiet.</Text>
-					<Text style={defaultTextStyle}>The data is fetched from Trafikverket's API.</Text>
+					<Text style={defaultTextStyle}>It is created by Linus Romland, Trafikverket is not liable for any flaws of the app.</Text>
+					<Text style={defaultTextStyle}>Contact and more information is available at https://ferrydepartures.com/</Text>
 					<Button
 						title='Close'
 						onPress={() => {
