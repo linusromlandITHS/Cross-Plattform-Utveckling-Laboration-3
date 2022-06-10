@@ -109,7 +109,7 @@ export default () => {
 				}}>
 				<Text
 					style={{
-						fontSize: 35,
+						fontSize: 30,
 						width: '60%',
 						textAlign: 'left',
 						marginBottom: 5
@@ -139,6 +139,7 @@ export default () => {
 					marginTop: 10,
 					paddingLeft: 10
 				}}>
+				{departures.length > 0 && !isToday(departures[0]['DepartureTime']) && 'Tomorrow at '}
 				{departures.length > 0 ? dayjs(departures[0]['DepartureTime']).format('HH:mm') : 'No departures'}
 			</Text>
 			{departures.length > 0 && (
