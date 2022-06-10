@@ -4,6 +4,11 @@ import { Modal, Text, View, Button } from 'react-native';
 export default (props: any) => {
 	const { modalVisible, setModalVisible } = props;
 
+	const defaultTextStyle = {
+		fontSize: 15,
+		marginBottom: 20
+	};
+
 	return (
 		<Modal
 			animationType='slide'
@@ -37,27 +42,9 @@ export default (props: any) => {
 						}}>
 						Ferry Departures
 					</Text>
-					<Text
-						style={{
-							fontSize: 15,
-							marginBottom: 20
-						}}>
-						This is a app to show the upcoming departures of ferries operated by the Swedish Färjerederiet (Trafikverket).
-					</Text>
-					<Text
-						style={{
-							fontSize: 15,
-							marginBottom: 20
-						}}>
-						It's is not a official app of the Swedish Färjerederiet.
-					</Text>
-					<Text
-						style={{
-							fontSize: 15,
-							marginBottom: 20
-						}}>
-						The data is fetched from Trafikverket's API.
-					</Text>
+					<Text style={defaultTextStyle}>This is a app to show the upcoming departures of ferries operated by the Swedish Färjerederiet (Trafikverket).</Text>
+					<Text style={defaultTextStyle}>It's is not a official app of the Swedish Färjerederiet.</Text>
+					<Text style={defaultTextStyle}>The data is fetched from Trafikverket's API.</Text>
 					<Button
 						title='Close'
 						onPress={() => {

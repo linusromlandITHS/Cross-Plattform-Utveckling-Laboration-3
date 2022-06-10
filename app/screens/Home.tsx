@@ -1,9 +1,10 @@
 //External dependencies
-import { View, Text, InputAccessoryView, TextInput, Button, ScrollView, Platform } from 'react-native';
+import { View, Text, InputAccessoryView, TextInput, Button, ScrollView, Platform, Pressable } from 'react-native';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { preventAutoHideAsync, hideAsync } from 'expo-splash-screen';
+import { AntDesign } from '@expo/vector-icons';
 
 //Internal dependencies
 import AboutModal from '../components/AboutModal';
@@ -70,16 +71,20 @@ export default () => {
 					alignItems: 'center',
 					padding: 10
 				}}>
-				<Text
-					style={{
-						fontSize: 35,
-						width: '95%',
-						textAlign: 'left',
-						marginLeft: 15,
-						marginBottom: 5
-					}}>
-					Select route
-				</Text>
+				<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+					<Text
+						style={{
+							fontSize: 35,
+							textAlign: 'left',
+							marginLeft: 15,
+							marginBottom: 5
+						}}>
+						Select route
+					</Text>
+					<Pressable onPress={() => setAboutModalVisible(true)} style={{ marginRight: 15 }}>
+						<AntDesign name='infocirlce' size={24} color='black' />
+					</Pressable>
+				</View>
 				<TextInput
 					style={{
 						width: '95%',
