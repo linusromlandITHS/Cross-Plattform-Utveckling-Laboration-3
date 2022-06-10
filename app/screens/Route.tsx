@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Button, SafeAreaView, Platform } from 'react-native';
+import { View, Text, FlatList, Button, SafeAreaView, Platform, RefreshControl } from 'react-native';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -9,6 +9,8 @@ export default () => {
 
 	const [routeName, setRouteName] = useState('');
 	const [departures, setDepartures] = useState([]);
+	const [routeTimeout, setRouteTimeout] = useState();
+	const [refreshing, setRefreshing] = useState(false);
 
 	useEffect(() => {
 		(async () => {
@@ -44,7 +46,13 @@ export default () => {
 		const nextDeparture = dayjs(response.departures[0]['DepartureTime']);
 		const now = dayjs();
 		const diff = nextDeparture.diff(now, 'ms');
-		setTimeout(getRoute, diff + 60000);
+		clearTimeout(routeTimeout);
+		setRouteTimeout(setTimeout(getRoute, diff + 60000) as any);
+	}
+
+	async function onRefresh() {
+		await getRoute();
+		setRefreshing(false);
 	}
 
 	async function handleChangeRoute() {
@@ -60,20 +68,21 @@ export default () => {
 	}
 
 	return (
-		<SafeAreaView style={{ flex: 1, marginBottom: Platform.OS == 'android' ? 20 : 0, marginTop: Platform.OS == 'android' ? 40 : 0 }}>
+		<SafeAreaView style={{ flex: 1, marginBottom: Platform.OS == 'android' ? 20 : 0, marginTop: Platform.OS == 'android' ? 40 : 20 }}>
 			<View
 				style={{
 					flexDirection: 'row',
 					justifyContent: 'space-between',
-					alignItems: 'center'
+					alignItems: 'center',
+					marginRight: 10,
+					marginLeft: 10
 				}}>
 				<Text
 					style={{
 						fontSize: 35,
 						width: '60%',
 						textAlign: 'left',
-						marginBottom: 5,
-						marginLeft: 10
+						marginBottom: 5
 					}}
 					numberOfLines={1}>
 					{routeName}
@@ -132,6 +141,7 @@ export default () => {
 						style={{
 							width: '100%'
 						}}
+						refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 						data={departures.slice(1)}
 						renderItem={({ item, index }) => (
 							<View

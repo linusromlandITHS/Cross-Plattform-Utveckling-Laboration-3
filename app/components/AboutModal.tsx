@@ -25,10 +25,39 @@ export default (props: any) => {
 						height: '80%',
 						backgroundColor: 'white',
 						borderRadius: 10,
-						justifyContent: 'center',
-						alignItems: 'center'
+						margin: 25,
+						padding: 25
 					}}>
-					<Text>Hello World!</Text>
+					<Text
+						style={{
+							fontSize: 25,
+							fontWeight: '500',
+							marginBottom: 20,
+							textAlign: 'center'
+						}}>
+						Ferry Departures
+					</Text>
+					<Text
+						style={{
+							fontSize: 15,
+							marginBottom: 20
+						}}>
+						This is a app to show the upcoming departures of ferries operated by the Swedish Färjerederiet (Trafikverket).
+					</Text>
+					<Text
+						style={{
+							fontSize: 15,
+							marginBottom: 20
+						}}>
+						It's is not a official app of the Swedish Färjerederiet.
+					</Text>
+					<Text
+						style={{
+							fontSize: 15,
+							marginBottom: 20
+						}}>
+						The data is fetched from Trafikverket's API.
+					</Text>
 					<Button
 						title='Close'
 						onPress={() => {
