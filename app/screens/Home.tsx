@@ -1,21 +1,32 @@
+//External dependencies
 import { View, Text, InputAccessoryView, TextInput, Button, ScrollView, Platform } from 'react-native';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
+//Internal dependencies
+import AboutModal from '../components/AboutModal';
+import WelcomeModal from '../components/WelcomeModal';
+
 export default () => {
+	// AsyncStorage.removeItem('hasSeenWelcome');
+
 	const navigation = useNavigation();
 	const inputAccessoryViewID = 'searchFieldClearButton';
 
+	const [WelcomeModalVisible, setWelcomeModalVisible] = useState(false);
+	const [AboutModalVisible, setAboutModalVisible] = useState(false);
 	const [routes, setRoutes] = useState([]);
 	const [search, setSearch] = useState('');
 
 	useEffect(() => {
+		getRoutes();
+
 		const unsubscribe = navigation.addListener('focus', () => {
 			(async () => {
-				const welcome = await AsyncStorage.getItem('welcome');
+				const welcome = await AsyncStorage.getItem('hasSeenWelcome');
 				if (welcome !== 'true') {
-					navigation.navigate('Welcome');
+					setWelcomeModalVisible(true);
 					return;
 				}
 
@@ -25,8 +36,7 @@ export default () => {
 					return;
 				}
 
-				const data = await getRoutes();
-				setRoutes(data);
+				getRoutes();
 			})();
 		});
 
@@ -36,7 +46,8 @@ export default () => {
 	async function getRoutes() {
 		const request = await fetch('https://api.ferrydepartures.com/api/routes');
 		const response = await request.json();
-		return response.routes;
+		const data = response.routes;
+		setRoutes(data);
 	}
 
 	async function handleRouteSelection(route: any) {
@@ -113,6 +124,9 @@ export default () => {
 						</View>
 					</InputAccessoryView>
 				)}
+
+				<WelcomeModal modalVisible={WelcomeModalVisible} setModalVisible={setWelcomeModalVisible} />
+				<AboutModal modalVisible={AboutModalVisible} setModalVisible={setAboutModalVisible} />
 			</View>
 		</View>
 	);
