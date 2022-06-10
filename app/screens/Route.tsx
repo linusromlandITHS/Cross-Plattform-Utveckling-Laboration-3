@@ -1,3 +1,4 @@
+//External dependencies
 import { View, Text, FlatList, Button, SafeAreaView, Platform, RefreshControl } from 'react-native';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -5,36 +6,36 @@ import { useNavigation, CommonActions } from '@react-navigation/native';
 import dayjs from 'dayjs';
 
 export default () => {
+	//Initialize useNavigation
 	const navigation = useNavigation();
 
+	//Initialize data variables
 	const [routeName, setRouteName] = useState('');
 	const [departures, setDepartures] = useState([]);
 	const [routeTimeout, setRouteTimeout] = useState();
 	const [refreshing, setRefreshing] = useState(false);
 
 	useEffect(() => {
-		(async () => {
-			const welcome = await AsyncStorage.getItem('welcome');
-			if (welcome !== 'true') {
-				navigation.dispatch(
-					CommonActions.navigate({
-						name: 'Welcome'
-					})
-				);
-				return;
-			}
-
-			getRoute();
-		})();
+		//Get the route name and departures
+		getRoute();
 
 		//Run on leave
 		navigation.addListener('blur', () => {
+			//Clear the route name and departures when users leaves the screen
 			AsyncStorage.removeItem('route');
 		});
 	}, []);
 
+	/**
+	 * @name getRoute
+	 * @description Get the route name and departures
+	 * @returns {void}
+	 **/
 	async function getRoute() {
+		//Retrieve the route from storage
 		const route = JSON.parse((await AsyncStorage.getItem('route')) as string) as any;
+
+		//If invalid route, navigate to home
 		if (route === null) {
 			navigation.dispatch(
 				CommonActions.navigate({
@@ -44,8 +45,10 @@ export default () => {
 			return;
 		}
 
+		// Updates the route name
 		setRouteName(route['Name']);
 
+		// Retrieve the departures from API
 		const request = await fetch(`https://api.ferrydepartures.com/api/route/${route['Id']}`);
 		const response = await request.json();
 		setDepartures(response.departures);
@@ -58,11 +61,21 @@ export default () => {
 		setRouteTimeout(setTimeout(getRoute, diff + 60000) as any);
 	}
 
+	/**
+	 * @name onRefresh
+	 * @description Refresh the departures
+	 * @returns {void}
+	 **/
 	async function onRefresh() {
 		await getRoute();
 		setRefreshing(false);
 	}
 
+	/**
+	 * @name handleChangeRoute
+	 * @description Navigate to the home screen
+	 * @returns {void}
+	 **/
 	async function handleChangeRoute() {
 		await AsyncStorage.removeItem('route');
 		navigation.dispatch(
@@ -72,6 +85,12 @@ export default () => {
 		);
 	}
 
+	/**
+	 * @name isToday
+	 * @description Check if the input date is today
+	 * @param {Date} date
+	 * @returns {boolean}
+	 **/
 	function isToday(date: Date) {
 		const now = new Date();
 		date = new Date(date);

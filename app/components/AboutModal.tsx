@@ -2,8 +2,10 @@
 import { Modal, Text, View, Button } from 'react-native';
 
 export default (props: any) => {
+	//Initialize data variables
 	const { modalVisible, setModalVisible } = props;
 
+	// Default styling for text
 	const defaultTextStyle = {
 		fontSize: 15,
 		marginBottom: 20

@@ -12,9 +12,13 @@ import WelcomeModal from '../components/WelcomeModal';
 export default () => {
 	// AsyncStorage.removeItem('hasSeenWelcome');
 
+	//Initialize useNavigation
 	const navigation = useNavigation();
+
+	//Initialize AccessoryID for InputAccessoryView
 	const inputAccessoryViewID = 'searchFieldClearButton';
 
+	//Initialize data variables
 	const [WelcomeModalVisible, setWelcomeModalVisible] = useState(false);
 	const [AboutModalVisible, setAboutModalVisible] = useState(false);
 	const [routes, setRoutes] = useState([]);
@@ -23,14 +27,17 @@ export default () => {
 	useEffect(() => {
 		getRoutes();
 
+		//Event listener for when the user enters the screen
 		const unsubscribe = navigation.addListener('focus', () => {
 			(async () => {
+				//Check if the user has seen the welcome modal, show the welcome modal if not
 				const welcome = await AsyncStorage.getItem('hasSeenWelcome');
 				if (welcome !== 'true') {
 					setWelcomeModalVisible(true);
 					return;
 				}
 
+				//Check if the user has set a route, if set it will navigate to the route
 				const route = await AsyncStorage.getItem('route');
 				if (route) {
 					navigation.dispatch(
@@ -45,9 +52,15 @@ export default () => {
 			})();
 		});
 
+		//Remove event listener on leave
 		return unsubscribe;
 	}, [navigation]);
 
+	/**
+	 * @name getRoutes
+	 * @description Get all routes from the API
+	 * @returns {void}
+	 */
 	async function getRoutes() {
 		const request = await fetch('https://api.ferrydepartures.com/api/routes');
 		const response = await request.json();
@@ -55,6 +68,12 @@ export default () => {
 		setRoutes(data);
 	}
 
+	/**
+	 * @name handleRouteSelection
+	 * @description Handles the selection of a route
+	 * @param route The route to search navigate to
+	 *
+	 */
 	async function handleRouteSelection(route: any) {
 		await AsyncStorage.setItem('route', JSON.stringify(route));
 		navigation.dispatch(
@@ -135,6 +154,8 @@ export default () => {
 							</View>
 						))}
 				</ScrollView>
+
+				{/* Only shows the InputAccessoryView on Apple IOS */}
 				{Platform.OS === 'ios' && (
 					<InputAccessoryView nativeID={inputAccessoryViewID}>
 						<View

@@ -3,8 +3,14 @@ import { Modal, Text, View, Button, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default (props: any) => {
+	//Initialize data variables
 	const { modalVisible, setModalVisible } = props;
 
+	/**
+	 * @name handleClose
+	 * @description Close the modal and sets the welcome modal as seen in storage.
+	 * @returns {void}
+	 */
 	function handleClose() {
 		AsyncStorage.setItem('hasSeenWelcome', 'true');
 		setModalVisible(false);
