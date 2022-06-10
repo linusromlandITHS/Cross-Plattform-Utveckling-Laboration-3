@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Button, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, Button, SafeAreaView, Platform } from 'react-native';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -41,13 +41,10 @@ export default () => {
 		setDepartures(response.departures);
 
 		//Run function again when next departure is scheduled
-		const nextDeparture = response.departures[0];
-		const nextDepartureTime = nextDeparture['DepartureTime'];
-		const nextDepartureTimeDate = dayjs(nextDepartureTime);
-		const nextDepartureTimeDateUnix = nextDepartureTimeDate.unix();
-		const nextDepartureTimeDateUnixMs = nextDepartureTimeDateUnix * 1000;
-		const nextDepartureTimeDateUnixMsMs = nextDepartureTimeDateUnixMs + 1000;
-		setTimeout(getRoute, nextDepartureTimeDateUnixMsMs);
+		const nextDeparture = dayjs(response.departures[0]['DepartureTime']);
+		const now = dayjs();
+		const diff = nextDeparture.diff(now, 'ms');
+		setTimeout(getRoute, diff + 60000);
 	}
 
 	async function handleChangeRoute() {
@@ -63,7 +60,7 @@ export default () => {
 	}
 
 	return (
-		<SafeAreaView style={{ flex: 1, marginTop: 60, marginLeft: 15, marginRight: 15, marginBottom: 95 }}>
+		<SafeAreaView style={{ flex: 1, marginLeft: 15, marginRight: 15, marginBottom: Platform.OS == 'android' ? 20 : 0, marginTop: Platform.OS == 'android' ? 40 : 0 }}>
 			<View
 				style={{
 					flexDirection: 'row',
@@ -89,8 +86,7 @@ export default () => {
 					textAlign: 'left',
 					marginBottom: 5
 				}}>
-				Next departure:
-				{departures.length > 0 ? dayjs(departures[0]['DepartureTime']).format('HH:mm') : 'No departures'}
+				Next departure: {departures.length > 0 ? dayjs(departures[0]['DepartureTime']).format('HH:mm') : 'No departures'}
 			</Text>
 			{departures.length > 0 && (
 				<>
@@ -117,8 +113,7 @@ export default () => {
 					</Text>
 					<FlatList
 						style={{
-							width: '100%',
-							marginBottom: 5
+							width: '100%'
 						}}
 						data={departures.slice(1)}
 						renderItem={({ item, index }) => (
