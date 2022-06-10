@@ -1,7 +1,7 @@
 {
 	"expo": {
 		"name": "Ferry Departures",
-		"slug": "Ferry Departures",
+		"slug": "ferry-departures",
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",

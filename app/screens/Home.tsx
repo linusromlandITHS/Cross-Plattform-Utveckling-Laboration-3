@@ -17,6 +17,12 @@ export default () => {
 				return;
 			}
 
+			const route = await AsyncStorage.getItem('route');
+			if (route) {
+				navigation.navigate('Route');
+				return;
+			}
+
 			const data = await getRoutes();
 			setRoutes(data);
 		})();
@@ -28,10 +34,9 @@ export default () => {
 		return response.routes;
 	}
 
-	function handleRouteSelection(route: any) {
-		AsyncStorage.setItem('route', route['Id'].toString());
-		console.log(route);
-		//navigation.navigate('Route', { route });
+	async function handleRouteSelection(route: any) {
+		await AsyncStorage.setItem('route', JSON.stringify(route));
+		navigation.navigate('Route');
 	}
 
 	return (
