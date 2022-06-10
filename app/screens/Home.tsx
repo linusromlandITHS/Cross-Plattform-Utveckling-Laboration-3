@@ -3,12 +3,6 @@ import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
-async function getRoutes() {
-	const request = await fetch('https://api.ferrydepartures.com/api/routes');
-	const response = await request.json();
-	return response.routes;
-}
-
 export default () => {
 	const navigation = useNavigation();
 
@@ -28,8 +22,20 @@ export default () => {
 		})();
 	}, []);
 
+	async function getRoutes() {
+		const request = await fetch('https://api.ferrydepartures.com/api/routes');
+		const response = await request.json();
+		return response.routes;
+	}
+
+	function handleRouteSelection(route: any) {
+		AsyncStorage.setItem('route', route['Id'].toString());
+		console.log(route);
+		//navigation.navigate('Route', { route });
+	}
+
 	return (
-		<View style={{ flex: 1, alignItems: 'center', marginTop: 85, marginBottom: 95 }}>
+		<View style={{ flex: 1, alignItems: 'center', marginTop: 60, marginBottom: 95 }}>
 			<Text
 				style={{
 					fontSize: 35,
@@ -77,7 +83,12 @@ export default () => {
 									marginRight: 20,
 									marginBottom: 10
 								}}>
-								<Button title={route['Name']} onPress={() => navigation.navigate('Route', { route })} />
+								<Button
+									title={route['Name']}
+									onPress={() => {
+										handleRouteSelection(route);
+									}}
+								/>
 							</View>
 						))}
 				</ScrollView>
