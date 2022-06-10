@@ -60,7 +60,7 @@ export default () => {
 	}
 
 	return (
-		<SafeAreaView style={{ flex: 1, marginLeft: 15, marginRight: 15, marginBottom: Platform.OS == 'android' ? 20 : 0, marginTop: Platform.OS == 'android' ? 40 : 0 }}>
+		<SafeAreaView style={{ flex: 1, marginBottom: Platform.OS == 'android' ? 20 : 0, marginTop: Platform.OS == 'android' ? 40 : 0 }}>
 			<View
 				style={{
 					flexDirection: 'row',
@@ -72,7 +72,8 @@ export default () => {
 						fontSize: 35,
 						width: '60%',
 						textAlign: 'left',
-						marginBottom: 5
+						marginBottom: 5,
+						marginLeft: 10
 					}}
 					numberOfLines={1}>
 					{routeName}
@@ -84,19 +85,32 @@ export default () => {
 					fontSize: 20,
 					width: '100%',
 					textAlign: 'left',
-					marginBottom: 5
+					backgroundColor: '#8caac2',
+					color: 'white',
+					padding: 10
 				}}>
-				Next departure: {departures.length > 0 ? dayjs(departures[0]['DepartureTime']).format('HH:mm') : 'No departures'}
+				Next departure from {departures[0] ? departures[0]['FromHarbor']['Name'] : '...'}
+			</Text>
+			<Text
+				style={{
+					fontSize: 20,
+					width: '100%',
+					textAlign: 'left',
+					marginBottom: 5,
+					marginTop: 10,
+					paddingLeft: 10
+				}}>
+				{departures.length > 0 ? dayjs(departures[0]['DepartureTime']).format('HH:mm') : 'No departures'}
 			</Text>
 			{departures.length > 0 && (
 				<>
 					<Text
 						style={{
 							fontSize: 20,
-
+							paddingLeft: 10,
 							width: '100%',
 							textAlign: 'left',
-							marginBottom: 25
+							marginBottom: 10
 						}}>
 						{departures[0]['FromHarbor']['Name']} → {departures[0]['ToHarbor']['Name']}
 						{departures[0]['Route']['Type']['Id'] == 1 && <Text> (Returning trip)</Text>}
@@ -107,7 +121,10 @@ export default () => {
 							fontSize: 20,
 							width: '100%',
 							textAlign: 'left',
-							marginBottom: 5
+							marginBottom: 5,
+							backgroundColor: '#8caac2',
+							color: 'white',
+							padding: 10
 						}}>
 						More Depatures:
 					</Text>
@@ -124,7 +141,7 @@ export default () => {
 									backgroundColor: index % 2 == 0 ? '#f5f5f5' : '#ffffff',
 									paddingBottom: 10,
 									paddingTop: 10,
-									paddingLeft: 5
+									paddingLeft: 10
 								}}>
 								<Text
 									style={{

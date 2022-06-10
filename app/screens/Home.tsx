@@ -1,14 +1,19 @@
 //External dependencies
 import { View, Text, InputAccessoryView, TextInput, Button, ScrollView, Platform } from 'react-native';
 import { useEffect, useState } from 'react';
+import { Header } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { preventAutoHideAsync, hideAsync } from 'expo-splash-screen';
 
 //Internal dependencies
 import AboutModal from '../components/AboutModal';
 import WelcomeModal from '../components/WelcomeModal';
 
 export default () => {
+	//Keep splash screen from auto-hiding
+	preventAutoHideAsync();
+
 	// AsyncStorage.removeItem('hasSeenWelcome');
 
 	const navigation = useNavigation();
@@ -48,6 +53,9 @@ export default () => {
 		const response = await request.json();
 		const data = response.routes;
 		setRoutes(data);
+
+		//Hide splash screen
+		hideAsync();
 	}
 
 	async function handleRouteSelection(route: any) {
@@ -55,79 +63,106 @@ export default () => {
 		navigation.navigate('Route');
 	}
 
-	return (
-		<View style={{ flex: 1, alignItems: 'center', marginTop: 60, marginBottom: 95 }}>
-			<Text
-				style={{
-					fontSize: 35,
-					width: '95%',
-					textAlign: 'left',
-					marginLeft: 15,
-					marginBottom: 5
-				}}>
-				Select route:
-			</Text>
-			<TextInput
-				style={{
-					width: '95%',
-					borderColor: 'gray',
-					borderWidth: 1,
-					padding: 10,
-					borderRadius: 15,
-					backgroundColor: '#fff'
-				}}
-				inputAccessoryViewID={inputAccessoryViewID}
-				onChangeText={setSearch}
-				value={search}
-				placeholder='Search'
-				autoComplete={'off'}
-				autoCorrect={false}
-				returnKeyType={'search'}
-			/>
-			<View
-				style={{
-					width: '100%',
-					marginTop: 20
-				}}>
-				<ScrollView
-					style={{
-						width: '100%'
-					}}>
-					{routes
-						.filter((route: any) => {
-							return route.Name.toLowerCase().includes(search.toLowerCase());
-						})
-						.map((route) => (
-							<View
-								key={route['Id']}
-								style={{
-									marginLeft: 20,
-									marginRight: 20,
-									marginBottom: 10
-								}}>
-								<Button
-									title={route['Name']}
-									onPress={() => {
-										handleRouteSelection(route);
-									}}
-								/>
-							</View>
-						))}
-				</ScrollView>
-				{Platform.OS === 'ios' && (
-					<InputAccessoryView nativeID={inputAccessoryViewID}>
-						<View
-							style={{
-								backgroundColor: '#fff'
-							}}>
-							<Button onPress={() => setSearch('')} title='Clear' />
-						</View>
-					</InputAccessoryView>
-				)}
+	const HeaderTitle = () => {
+		return <Text style={{ fontSize: 20, fontWeight: '400' }}>Ferry Departures</Text>;
+	};
 
-				<WelcomeModal modalVisible={WelcomeModalVisible} setModalVisible={setWelcomeModalVisible} />
-				<AboutModal modalVisible={AboutModalVisible} setModalVisible={setAboutModalVisible} />
+	return (
+		<>
+			<Header
+				placement='left'
+				centerComponent={<HeaderTitle />}
+				rightComponent={{
+					icon: 'info',
+					color: '#000',
+					onPress: () => {
+						setAboutModalVisible(true);
+					}
+				}}
+				containerStyle={{
+					backgroundColor: '#8caac2'
+				}}
+			/>
+			<View style={{ flex: 1, alignItems: 'center', marginBottom: 95 }}>
+				<View
+					style={{
+						width: '100%',
+						alignItems: 'center',
+						padding: 10
+					}}>
+					<Text
+						style={{
+							fontSize: 35,
+							width: '95%',
+							textAlign: 'left',
+							marginLeft: 15,
+							marginBottom: 5
+						}}>
+						Select route
+					</Text>
+					<TextInput
+						style={{
+							width: '95%',
+							borderColor: 'gray',
+							borderWidth: 1,
+							padding: 10,
+							borderRadius: 15,
+							backgroundColor: '#fff'
+						}}
+						inputAccessoryViewID={inputAccessoryViewID}
+						onChangeText={setSearch}
+						value={search}
+						placeholder='Search'
+						autoComplete={'off'}
+						autoCorrect={false}
+						returnKeyType={'search'}
+					/>
+				</View>
+				<View
+					style={{
+						width: '100%',
+						marginTop: 20
+					}}>
+					<ScrollView
+						style={{
+							width: '100%'
+						}}>
+						{routes
+							.filter((route: any) => {
+								return route.Name.toLowerCase().includes(search.toLowerCase());
+							})
+							.map((route) => (
+								<View
+									key={route['Id']}
+									style={{
+										marginLeft: 20,
+										marginRight: 20,
+										marginBottom: 10
+									}}>
+									<Button
+										title={route['Name']}
+										onPress={() => {
+											handleRouteSelection(route);
+										}}
+									/>
+								</View>
+							))}
+					</ScrollView>
+					{Platform.OS === 'ios' && (
+						<InputAccessoryView nativeID={inputAccessoryViewID}>
+							<View
+								style={{
+									backgroundColor: '#fff'
+								}}>
+								<Button onPress={() => setSearch('')} title='Clear' />
+							</View>
+						</InputAccessoryView>
+					)}
+
+					<WelcomeModal modalVisible={WelcomeModalVisible} setModalVisible={setWelcomeModalVisible} />
+					<AboutModal modalVisible={AboutModalVisible} setModalVisible={setAboutModalVisible} />
+				</View>
 			</View>
-		</View>
+		</>
 	);
 };
