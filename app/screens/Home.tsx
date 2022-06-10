@@ -1,32 +1,37 @@
-import { View, Text, TextInput, Button, ScrollView } from 'react-native';
+import { View, Text, InputAccessoryView, TextInput, Button, ScrollView, Platform } from 'react-native';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
 export default () => {
 	const navigation = useNavigation();
+	const inputAccessoryViewID = 'searchFieldClearButton';
 
 	const [routes, setRoutes] = useState([]);
 	const [search, setSearch] = useState('');
 
 	useEffect(() => {
-		(async () => {
-			const welcome = await AsyncStorage.getItem('welcome');
-			if (welcome !== 'true') {
-				navigation.navigate('Welcome');
-				return;
-			}
+		const unsubscribe = navigation.addListener('focus', () => {
+			(async () => {
+				const welcome = await AsyncStorage.getItem('welcome');
+				if (welcome !== 'true') {
+					navigation.navigate('Welcome');
+					return;
+				}
 
-			const route = await AsyncStorage.getItem('route');
-			if (route) {
-				navigation.navigate('Route');
-				return;
-			}
+				const route = await AsyncStorage.getItem('route');
+				if (route) {
+					navigation.navigate('Route');
+					return;
+				}
 
-			const data = await getRoutes();
-			setRoutes(data);
-		})();
-	}, []);
+				const data = await getRoutes();
+				setRoutes(data);
+			})();
+		});
+
+		return unsubscribe;
+	}, [navigation]);
 
 	async function getRoutes() {
 		const request = await fetch('https://api.ferrydepartures.com/api/routes');
@@ -60,6 +65,7 @@ export default () => {
 					borderRadius: 15,
 					backgroundColor: '#fff'
 				}}
+				inputAccessoryViewID={inputAccessoryViewID}
 				onChangeText={setSearch}
 				value={search}
 				placeholder='Search'
@@ -97,6 +103,16 @@ export default () => {
 							</View>
 						))}
 				</ScrollView>
+				{Platform.OS === 'ios' && (
+					<InputAccessoryView nativeID={inputAccessoryViewID}>
+						<View
+							style={{
+								backgroundColor: '#fff'
+							}}>
+							<Button onPress={() => setSearch('')} title='Clear' />
+						</View>
+					</InputAccessoryView>
+				)}
 			</View>
 		</View>
 	);
