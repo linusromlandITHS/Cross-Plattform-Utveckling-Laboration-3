@@ -4,13 +4,19 @@ import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
+import { useContext } from 'react';
 
 //Internal dependencies
 import AboutModal from '../components/AboutModal';
 import WelcomeModal from '../components/WelcomeModal';
+import ColorSchemeContext from '../contexts/ColorSchemeContext';
 
 export default () => {
 	// AsyncStorage.removeItem('hasSeenWelcome');
+
+	const colorScheme = useContext(ColorSchemeContext);
+
+	console.log('colorScheme', colorScheme);
 
 	//Initialize useNavigation
 	const navigation = useNavigation();
