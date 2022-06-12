@@ -1,9 +1,12 @@
 //External dependencies
-import { View, Text, FlatList, Button, SafeAreaView, Platform, RefreshControl } from 'react-native';
+import { View, Text, FlatList, Button, SafeAreaView, Platform, RefreshControl, Pressable } from 'react-native';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import dayjs from 'dayjs';
+
+//Internal dependencies
+import RouteInformationModal from '../components/RouteInformationModal';
 
 export default () => {
 	//Initialize useNavigation
@@ -14,6 +17,8 @@ export default () => {
 	const [departures, setDepartures] = useState([]);
 	const [routeTimeout, setRouteTimeout] = useState();
 	const [refreshing, setRefreshing] = useState(false);
+	const [showRouteInformationModal, setShowRouteInformationModal] = useState(false);
+	const [departureInfo, setDepartureInfo] = useState({});
 
 	useEffect(() => {
 		//Get the route name and departures
@@ -88,6 +93,16 @@ export default () => {
 	}
 
 	/**
+	 * @name handleShowRouteInformationModal
+	 * @description Show the route information modal
+	 * @returns {void}
+	 */
+	function handleShowRouteInformationModal(departure: Object) {
+		setDepartureInfo(departure);
+		setShowRouteInformationModal(true);
+	}
+
+	/**
 	 * @name isToday
 	 * @description Check if the input date is today
 	 * @param {Date} date
@@ -142,12 +157,14 @@ export default () => {
 					marginTop: 10,
 					paddingLeft: 10
 				}}>
+				{departures.length > 0 && departures[0]['Info'] && (departures[0]['Info'] as Array<String>).length > 0 && '\u2B24 '}
 				{departures.length > 0 && !isToday(departures[0]['DepartureTime']) && 'Tomorrow at '}
 				{departures.length > 0 ? dayjs(departures[0]['DepartureTime']).format('HH:mm') : 'No departures'}
 			</Text>
 			{departures.length > 0 && (
 				<>
 					<Text
+						onPress={() => handleShowRouteInformationModal(departures[0])}
 						style={{
 							fontSize: 20,
 							paddingLeft: 10,
@@ -158,24 +175,6 @@ export default () => {
 						{departures[0]['FromHarbor']['Name']} → {departures[0]['ToHarbor']['Name']}
 						{departures[0]['Route']['Type']['Id'] == 1 && <Text> (Returning trip)</Text>}
 					</Text>
-
-					{departures &&
-						departures.length > 0 &&
-						departures[0]['Info'] &&
-						(departures[0]['Info'] as Array<String>).length > 0 &&
-						(departures[0]['Info'] as Array<String>).map((info, index) => {
-							<Text
-								key={index}
-								style={{
-									fontSize: 20,
-									paddingLeft: 10,
-									width: '100%',
-									textAlign: 'left',
-									marginBottom: 10
-								}}>
-								{info}
-							</Text>;
-						})}
 
 					<Text
 						style={{
@@ -196,58 +195,46 @@ export default () => {
 						refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 						data={departures.slice(1)}
 						renderItem={({ item, index }) => (
-							<View
-								key={item}
-								style={{
-									width: '100%',
-									backgroundColor: index % 2 == 0 ? '#f5f5f5' : '#ffffff',
-									paddingBottom: 10,
-									paddingTop: 10,
-									paddingLeft: 10
-								}}>
-								<Text
+							<Pressable onPress={() => handleShowRouteInformationModal(item)}>
+								<View
+									key={item}
 									style={{
-										fontSize: 20,
-										textAlign: 'left',
-										marginBottom: 5
+										width: '100%',
+										backgroundColor: index % 2 == 0 ? '#f5f5f5' : '#ffffff',
+										paddingBottom: 10,
+										paddingTop: 10,
+										paddingLeft: 10
 									}}>
-									{!isToday(item['DepartureTime']) && 'Tomorrow at '}
-									{dayjs(item['DepartureTime']).format('HH:mm')}
-								</Text>
-								<Text
-									style={{
-										fontSize: 17,
-										textAlign: 'left',
-										marginBottom: 5
-									}}>
-									{item['FromHarbor']['Name']} → {item['ToHarbor']['Name']}
-									{item['Route']['Type']['Id'] == 1 && <Text> (Returning trip)</Text>}
-								</Text>
-								{item &&
-									item['Info'] &&
-									(item['Info'] as Array<String>).length > 0 &&
-									(item['Info'] as Array<String>).map((info, index) => {
-										return (
-											<Text
-												key={index}
-												style={{
-													fontSize: 15,
-													width: '100%',
-													textAlign: 'left',
-													marginBottom: 10
-												}}>
-												{console.log(dayjs(item['DepartureTime']).format('HH:mm'))}
-												{console.log('info', info)}
-												{info}
-											</Text>
-										);
-									})}
-							</View>
+									<View>
+										<Text
+											style={{
+												fontSize: 20,
+												textAlign: 'left',
+												marginBottom: 5
+											}}>
+											{item && item['Info'] && (item['Info'] as Array<String>).length > 0 && '\u2B24 '}
+											{!isToday(item['DepartureTime']) && 'Tomorrow at '}
+											{dayjs(item['DepartureTime']).format('HH:mm')}
+										</Text>
+									</View>
+
+									<Text
+										style={{
+											fontSize: 17,
+											textAlign: 'left',
+											marginBottom: 5
+										}}>
+										{item['FromHarbor']['Name']} → {item['ToHarbor']['Name']}
+										{item['Route']['Type']['Id'] == 1 && <Text> (Returning trip)</Text>}
+									</Text>
+								</View>
+							</Pressable>
 						)}
 						keyExtractor={(departure) => departure['Id']}
 					/>
 				</>
 			)}
+			<RouteInformationModal modalVisible={showRouteInformationModal} setModalVisible={setShowRouteInformationModal} routeName={routeName} departureInfo={departureInfo} />
 		</SafeAreaView>
 	);
 };
