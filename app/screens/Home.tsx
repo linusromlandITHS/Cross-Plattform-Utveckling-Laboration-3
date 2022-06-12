@@ -16,8 +16,6 @@ export default () => {
 
 	const colorScheme = useContext(ColorSchemeContext);
 
-	console.log('colorScheme', colorScheme);
-
 	//Initialize useNavigation
 	const navigation = useNavigation();
 
