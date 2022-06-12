@@ -53,6 +53,8 @@ export default () => {
 		const response = await request.json();
 		setDepartures(response.departures);
 
+		const tmp = response.departures;
+
 		//Run function again when next departure is scheduled
 		const nextDeparture = dayjs(response.departures[0]['DepartureTime']);
 		const now = dayjs();
@@ -130,6 +132,7 @@ export default () => {
 				}}>
 				Next departure from {departures[0] ? departures[0]['FromHarbor']['Name'] : '...'}
 			</Text>
+
 			<Text
 				style={{
 					fontSize: 20,
@@ -155,6 +158,24 @@ export default () => {
 						{departures[0]['FromHarbor']['Name']} → {departures[0]['ToHarbor']['Name']}
 						{departures[0]['Route']['Type']['Id'] == 1 && <Text> (Returning trip)</Text>}
 					</Text>
+
+					{departures &&
+						departures.length > 0 &&
+						departures[0]['Info'] &&
+						(departures[0]['Info'] as Array<String>).length > 0 &&
+						(departures[0]['Info'] as Array<String>).map((info, index) => {
+							<Text
+								key={index}
+								style={{
+									fontSize: 20,
+									paddingLeft: 10,
+									width: '100%',
+									textAlign: 'left',
+									marginBottom: 10
+								}}>
+								{info}
+							</Text>;
+						})}
 
 					<Text
 						style={{
@@ -195,13 +216,32 @@ export default () => {
 								</Text>
 								<Text
 									style={{
-										fontSize: 15,
+										fontSize: 17,
 										textAlign: 'left',
 										marginBottom: 5
 									}}>
 									{item['FromHarbor']['Name']} → {item['ToHarbor']['Name']}
 									{item['Route']['Type']['Id'] == 1 && <Text> (Returning trip)</Text>}
 								</Text>
+								{item &&
+									item['Info'] &&
+									(item['Info'] as Array<String>).length > 0 &&
+									(item['Info'] as Array<String>).map((info, index) => {
+										return (
+											<Text
+												key={index}
+												style={{
+													fontSize: 15,
+													width: '100%',
+													textAlign: 'left',
+													marginBottom: 10
+												}}>
+												{console.log(dayjs(item['DepartureTime']).format('HH:mm'))}
+												{console.log('info', info)}
+												{info}
+											</Text>
+										);
+									})}
 							</View>
 						)}
 						keyExtractor={(departure) => departure['Id']}
