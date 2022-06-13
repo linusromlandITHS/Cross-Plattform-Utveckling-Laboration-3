@@ -1,5 +1,5 @@
 //External dependencies
-import { Appearance, Text } from 'react-native';
+import { Appearance } from 'react-native';
 import { useState } from 'react';
 
 //Internal dependencies
@@ -9,7 +9,7 @@ import ColorSchemeContext from './contexts/ColorSchemeContext';
 const { getColorScheme } = Appearance;
 
 function App() {
-	const [colorScheme] = useState('light');
+	const [colorScheme] = useState(getColorScheme());
 
 	console.log('Color scheme is set to', colorScheme);
 
