@@ -1,5 +1,5 @@
 //External dependencies
-import { Appearance, Text } from 'react-native';
+import { Appearance, Text, useColorScheme } from 'react-native';
 import { useState } from 'react';
 
 //Internal dependencies

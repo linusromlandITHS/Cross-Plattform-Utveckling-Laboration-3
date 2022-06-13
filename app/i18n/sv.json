@@ -1,5 +1,36 @@
 {
 	"routes": {
-		"selectRoute": "Välj färjerutt"
+		"selectRoute": "Välj färjerutt",
+		"search": "Sök efter färjerutt",
+		"clear": "Rensa"
+	},
+	"route": {
+		"nextDepartureFrom": "Nästa avgång från",
+		"moreDepartures": "Mer avgångar",
+		"noDepartures": "Inga avgångar",
+		"tomorrowAt": "Imorgon kl. "
+	},
+	"about": {
+		"ferryDepartures": "Färjavgångar",
+		"description": "Detta är en app för att visa avgångar på färjerutter som körs av Färjerederiet (Trafikverket).",
+		"libility": "Appen är skapad av Linus Romland, Trafikverket ansvarar inte för eventuella brister i appen.",
+		"contact": "Kontakt och mer information finns på https://ferrydepartures.com/"
+	},
+	"routeInformation": {
+		"departureDate": "Avgångsdatum",
+		"departureTime": "Avgångstid",
+		"departureHarbor": "Avgångshamn",
+		"arrivalHarbor": "Ankomsthamn",
+		"departureInformation": "Avgångsinformation",
+		"noInformation": "Ingen information tillgänglig"
+	},
+	"welcome": {
+		"title": "Välkommen till Färjeavgångar",
+		"description": "Detta är en app för att visa avgångar på färjerutter som körs av Färjerederiet (Trafikverket).",
+		"buttonText": "Välj avgångar"
+	},
+	"misc": {
+		"close": "Stäng",
+		"returningTrip": "Vändande avgång"
 	}
 }
