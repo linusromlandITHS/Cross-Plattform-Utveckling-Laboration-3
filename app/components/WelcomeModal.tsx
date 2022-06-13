@@ -1,6 +1,7 @@
 //External dependencies
 import { Modal, Text, View, Button, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { t } from 'i18n-js';
 
 export default (props: any) => {
 	//Initialize data variables
@@ -50,16 +51,16 @@ export default (props: any) => {
 							fontSize: 25,
 							fontWeight: '500'
 						}}>
-						Welcome to Ferry Departures
+						{t('welcome.title')}
 					</Text>
 					<Text
 						style={{
 							fontSize: 15,
 							marginBottom: 20
 						}}>
-						This is a app to show the upcoming departures of ferries operated by the Swedish Färjerederiet (Trafikverket).
+						{t('welcome.description')}
 					</Text>
-					<Button title='Show departures' onPress={handleClose} />
+					<Button title={t('welcome.buttonText')} onPress={handleClose} />
 				</View>
 			</View>
 		</Modal>

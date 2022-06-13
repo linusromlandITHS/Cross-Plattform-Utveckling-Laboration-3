@@ -174,7 +174,7 @@ export default () => {
 							marginBottom: 10
 						}}>
 						{departures[0]['FromHarbor']['Name']} → {departures[0]['ToHarbor']['Name']}
-						{departures[0]['Route']['Type']['Id'] == 1 && <Text> ({t('route.returingTrip')})</Text>}
+						{departures[0]['Route']['Type']['Id'] == 1 && <Text> ({t('misc.returningTrip')})</Text>}
 					</Text>
 
 					<Text
@@ -226,7 +226,7 @@ export default () => {
 											marginBottom: 5
 										}}>
 										{item['FromHarbor']['Name']} → {item['ToHarbor']['Name']}
-										{item['Route']['Type']['Id'] == 1 && <Text> ({t('route.returingTrip')})</Text>}
+										{item['Route']['Type']['Id'] == 1 && <Text> ({t('misc.returningTrip')})</Text>}
 									</Text>
 								</View>
 							</Pressable>

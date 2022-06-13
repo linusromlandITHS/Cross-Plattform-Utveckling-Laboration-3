@@ -49,7 +49,7 @@ export default (props: any) => {
 					<Text style={defaultTextStyle}>{t('about.libility')}</Text>
 					<Text style={defaultTextStyle}>{t('about.contact')}</Text>
 					<Button
-						title={t('about.close')}
+						title={t('misc.close')}
 						onPress={() => {
 							setModalVisible(false);
 						}}

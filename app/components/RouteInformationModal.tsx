@@ -2,6 +2,7 @@
 import { Modal, Text, View, Button } from 'react-native';
 import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
+import { t } from 'i18n-js';
 
 export default (props: any) => {
 	//Initialize data variables
@@ -25,7 +26,7 @@ export default (props: any) => {
 
 			//Update the departure information
 			const depInfo = [];
-			if (departureInfo['Route'] && departureInfo['Route']['Type'] && departureInfo['Route']['Type']['Id'] == 1) depInfo.push('Returning trip');
+			if (departureInfo['Route'] && departureInfo['Route']['Type'] && departureInfo['Route']['Type']['Id'] == 1) depInfo.push(t('misc.returningTrip'));
 			if (departureInfo['Info'] && departureInfo['Info'].length > 0) departureInfo['Info'].forEach((info: any) => depInfo.push(info));
 			setDepartureInformation(depInfo);
 		}
@@ -79,17 +80,25 @@ export default (props: any) => {
 									{routeName}
 								</Text>
 
-								<Text style={textStyle}>Departures date: {departureDate}</Text>
-								<Text style={textStyle}>Departures time: {departureTime}</Text>
-								<Text style={textStyle}>Departure Harbor: {departureHarbour}</Text>
-								<Text style={textStyle}>Arrival Harbor: {arrivalHarbour}</Text>
+								<Text style={textStyle}>
+									{t('routeInformation.departureDate')}: {departureDate}
+								</Text>
+								<Text style={textStyle}>
+									{t('routeInformation.departureTime')}: {departureTime}
+								</Text>
+								<Text style={textStyle}>
+									{t('routeInformation.departureHarbor')}: {departureHarbour}
+								</Text>
+								<Text style={textStyle}>
+									{t('routeInformation.arrivalHarbor')}: {arrivalHarbour}
+								</Text>
 								<Text
 									style={{
 										fontSize: 25,
 										fontWeight: '500',
 										marginBottom: 10
 									}}>
-									Departure information:
+									{t('routeInformation.departureInformation')}:
 								</Text>
 
 								{departureInformation.map((info, index) => {
@@ -115,12 +124,12 @@ export default (props: any) => {
 											textAlign: 'left',
 											marginBottom: 10
 										}}>
-										No information available
+										{t('routeInformation.noInformation')}
 									</Text>
 								)}
 							</>
 						)}
-						<Button title='Close' onPress={handleClose} />
+						<Button title={t('misc.close')} onPress={handleClose} />
 					</View>
 				</View>
 			</View>
