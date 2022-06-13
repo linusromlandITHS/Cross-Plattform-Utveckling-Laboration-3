@@ -58,10 +58,9 @@ export default (props: any) => {
 				<View
 					style={{
 						width: '100%',
-						height: '70%',
+						height: '55%',
 						backgroundColor: 'white',
 						borderRadius: 10,
-						justifyContent: 'center',
 						alignItems: 'center'
 					}}>
 					<View
@@ -73,7 +72,9 @@ export default (props: any) => {
 								<Text
 									style={{
 										fontSize: 30,
-										fontWeight: '500'
+										fontWeight: '500',
+										marginTop: 25,
+										marginBottom: 10
 									}}>
 									{routeName}
 								</Text>
