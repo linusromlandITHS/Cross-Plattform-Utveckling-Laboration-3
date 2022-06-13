@@ -4,17 +4,14 @@ import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
-import { useContext } from 'react';
+import { t } from 'i18n-js';
 
 //Internal dependencies
 import AboutModal from '../components/AboutModal';
 import WelcomeModal from '../components/WelcomeModal';
-import ColorSchemeContext from '../contexts/ColorSchemeContext';
 
 export default () => {
 	// AsyncStorage.removeItem('hasSeenWelcome');
-
-	const colorScheme = useContext(ColorSchemeContext);
 
 	//Initialize useNavigation
 	const navigation = useNavigation();
@@ -103,7 +100,7 @@ export default () => {
 							marginLeft: 15,
 							marginBottom: 5
 						}}>
-						Select route
+						<Text>{t('routes.selectRoute')}</Text>
 					</Text>
 					<Pressable onPress={() => setAboutModalVisible(true)} style={{ marginRight: 15 }}>
 						<AntDesign name='infocirlce' size={24} color='black' />
