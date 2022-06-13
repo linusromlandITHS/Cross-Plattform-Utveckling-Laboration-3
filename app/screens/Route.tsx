@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { t } from 'i18n-js';
+import { AntDesign } from '@expo/vector-icons';
 
 //Internal dependencies
 import RouteInformationModal from '../components/RouteInformationModal';
@@ -223,8 +224,7 @@ export default () => {
 												marginBottom: 5,
 												color: colorSchemeState.text
 											}}>
-											{item && item['Info'] && (item['Info'] as Array<String>).length > 0 && '\u2B24 '}
-											{!isToday(item['DepartureTime']) && t('route.tomorrowAt')}
+											{item && item['Info'] && (item['Info'] as Array<String>).length > 0 && <AntDesign name='infocirlce' size={18} color={colorSchemeState.colorString} />} {!isToday(item['DepartureTime']) && t('route.tomorrowAt')}
 											{dayjs(item['DepartureTime']).format('HH:mm')}
 										</Text>
 									</View>

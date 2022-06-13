@@ -62,14 +62,13 @@ export default (props: any) => {
 					flex: 1,
 					justifyContent: 'flex-end',
 					height: '100%',
-					alignItems: 'center',
-					backgroundColor: 'rgba(0,0,0,0.5)'
+					alignItems: 'center'
 				}}>
 				<View
 					style={{
 						width: '100%',
 						height: '55%',
-						backgroundColor: colorSchemeState.background,
+						backgroundColor: colorSchemeState.accentBackground,
 						borderRadius: 10,
 						alignItems: 'center'
 					}}>
