@@ -1,27 +1,22 @@
 //External dependencies
-import { Appearance, Text, useColorScheme } from 'react-native';
+import { Appearance, Text } from 'react-native';
 import { useState } from 'react';
 
 //Internal dependencies
 import Router from './Router';
 import { i18nInitialize } from './i18n';
 import ColorSchemeContext from './contexts/ColorSchemeContext';
-const { getColorScheme, addChangeListener } = Appearance;
+const { getColorScheme } = Appearance;
 
 function App() {
-	const [colorScheme, setColorScheme] = useState(getColorScheme());
+	const [colorScheme] = useState('dark');
 
 	console.log('Color scheme is set to', colorScheme);
 
 	i18nInitialize();
 
-	addChangeListener(({ colorScheme }) => {
-		setColorScheme(colorScheme);
-		console.log('User changed color scheme to', colorScheme);
-	});
-
 	return (
-		<ColorSchemeContext.Provider value={colorScheme ? colorScheme : 'light'}>
+		<ColorSchemeContext.Provider value={colorScheme}>
 			<Router />
 		</ColorSchemeContext.Provider>
 	);

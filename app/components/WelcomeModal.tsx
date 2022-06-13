@@ -2,10 +2,19 @@
 import { Modal, Text, View, Button, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { t } from 'i18n-js';
+import { useState, useContext } from 'react';
+
+//Internal dependencies
+import ColorSchemeContext from '../contexts/ColorSchemeContext';
+import { getColorScheme } from '../utils/appearance';
 
 export default (props: any) => {
 	//Initialize data variables
 	const { modalVisible, setModalVisible } = props;
+
+	//Initialize useContext
+	const colorScheme = useContext(ColorSchemeContext);
+	const [colorSchemeState] = useState(getColorScheme(colorScheme as string));
 
 	/**
 	 * @name handleClose
@@ -30,7 +39,7 @@ export default (props: any) => {
 					style={{
 						width: '100%',
 						height: '100%',
-						backgroundColor: 'white',
+						backgroundColor: colorSchemeState.background,
 						borderRadius: 10,
 						justifyContent: 'center',
 						alignItems: 'center'
@@ -49,14 +58,16 @@ export default (props: any) => {
 					<Text
 						style={{
 							fontSize: 25,
-							fontWeight: '500'
+							fontWeight: '500',
+							color: colorSchemeState.text
 						}}>
 						{t('welcome.title')}
 					</Text>
 					<Text
 						style={{
 							fontSize: 15,
-							marginBottom: 20
+							marginBottom: 20,
+							color: colorSchemeState.text
 						}}>
 						{t('welcome.description')}
 					</Text>

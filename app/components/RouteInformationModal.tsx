@@ -1,8 +1,12 @@
 //External dependencies
 import { Modal, Text, View, Button } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import dayjs from 'dayjs';
 import { t } from 'i18n-js';
+
+//Internal dependencies
+import ColorSchemeContext from '../contexts/ColorSchemeContext';
+import { getColorScheme } from '../utils/appearance';
 
 export default (props: any) => {
 	//Initialize data variables
@@ -14,6 +18,10 @@ export default (props: any) => {
 	const [departureHarbour, setDepartureHarbour] = useState('');
 	const [arrivalHarbour, setArrivalHarbour] = useState('');
 	const [departureInformation, setDepartureInformation] = useState(['']);
+
+	//Initialize useContext
+	const colorScheme = useContext(ColorSchemeContext);
+	const [colorSchemeState] = useState(getColorScheme(colorScheme as string));
 
 	//Initialize useEffect
 	useEffect(() => {
@@ -43,7 +51,8 @@ export default (props: any) => {
 
 	const textStyle = {
 		fontSize: 20,
-		marginBottom: 20
+		marginBottom: 20,
+		color: colorSchemeState.text
 	};
 
 	return (
@@ -60,7 +69,7 @@ export default (props: any) => {
 					style={{
 						width: '100%',
 						height: '55%',
-						backgroundColor: 'white',
+						backgroundColor: colorSchemeState.background,
 						borderRadius: 10,
 						alignItems: 'center'
 					}}>
@@ -75,7 +84,8 @@ export default (props: any) => {
 										fontSize: 30,
 										fontWeight: '500',
 										marginTop: 25,
-										marginBottom: 10
+										marginBottom: 10,
+										color: colorSchemeState.text
 									}}>
 									{routeName}
 								</Text>
@@ -96,7 +106,8 @@ export default (props: any) => {
 									style={{
 										fontSize: 25,
 										fontWeight: '500',
-										marginBottom: 10
+										marginBottom: 10,
+										color: colorSchemeState.text
 									}}>
 									{t('routeInformation.departureInformation')}:
 								</Text>
@@ -109,7 +120,8 @@ export default (props: any) => {
 												fontSize: 20,
 												width: '100%',
 												textAlign: 'left',
-												marginBottom: 10
+												marginBottom: 10,
+												color: colorSchemeState.text
 											}}>
 											{info}
 										</Text>

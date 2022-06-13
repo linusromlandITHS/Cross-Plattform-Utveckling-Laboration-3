@@ -1,6 +1,6 @@
 //External dependencies
 import { View, Text, FlatList, Button, SafeAreaView, Platform, RefreshControl, Pressable } from 'react-native';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import dayjs from 'dayjs';
@@ -8,6 +8,8 @@ import { t } from 'i18n-js';
 
 //Internal dependencies
 import RouteInformationModal from '../components/RouteInformationModal';
+import ColorSchemeContext from '../contexts/ColorSchemeContext';
+import { getColorScheme } from '../utils/appearance';
 
 export default () => {
 	//Initialize useNavigation
@@ -20,6 +22,10 @@ export default () => {
 	const [refreshing, setRefreshing] = useState(false);
 	const [showRouteInformationModal, setShowRouteInformationModal] = useState(false);
 	const [departureInfo, setDepartureInfo] = useState({});
+
+	//Initialize useContext
+	const colorScheme = useContext(ColorSchemeContext);
+	const [colorSchemeState] = useState(getColorScheme(colorScheme as string));
 
 	useEffect(() => {
 		//Get the route name and departures
@@ -116,7 +122,7 @@ export default () => {
 	}
 
 	return (
-		<SafeAreaView style={{ flex: 1, marginBottom: Platform.OS == 'android' ? 20 : 0, marginTop: Platform.OS == 'android' ? 40 : 20 }}>
+		<SafeAreaView style={{ flex: 1, paddingBottom: Platform.OS == 'android' ? 20 : 0, paddingTop: Platform.OS == 'android' ? 40 : 20, backgroundColor: colorSchemeState.background }}>
 			<View
 				style={{
 					flexDirection: 'row',
@@ -130,7 +136,8 @@ export default () => {
 						fontSize: 30,
 						width: '60%',
 						textAlign: 'left',
-						marginBottom: 5
+						marginBottom: 5,
+						color: colorSchemeState.text
 					}}
 					numberOfLines={1}>
 					{routeName}
@@ -142,8 +149,8 @@ export default () => {
 					fontSize: 20,
 					width: '100%',
 					textAlign: 'left',
-					backgroundColor: '#8caac2',
-					color: 'white',
+					backgroundColor: colorSchemeState.accentBackground,
+					color: colorSchemeState.text,
 					padding: 10
 				}}>
 				{t('route.nextDepartureFrom')} {departures[0] ? departures[0]['FromHarbor']['Name'] : '...'}
@@ -156,7 +163,8 @@ export default () => {
 					textAlign: 'left',
 					marginBottom: 5,
 					marginTop: 10,
-					paddingLeft: 10
+					paddingLeft: 10,
+					color: colorSchemeState.text
 				}}>
 				{departures.length > 0 && departures[0]['Info'] && (departures[0]['Info'] as Array<String>).length > 0 && '\u2B24 '}
 				{departures.length > 0 && !isToday(departures[0]['DepartureTime']) && t('route.tomorrowAt')}
@@ -171,7 +179,8 @@ export default () => {
 							paddingLeft: 10,
 							width: '100%',
 							textAlign: 'left',
-							marginBottom: 10
+							marginBottom: 10,
+							color: colorSchemeState.text
 						}}>
 						{departures[0]['FromHarbor']['Name']} → {departures[0]['ToHarbor']['Name']}
 						{departures[0]['Route']['Type']['Id'] == 1 && <Text> ({t('misc.returningTrip')})</Text>}
@@ -183,8 +192,8 @@ export default () => {
 							width: '100%',
 							textAlign: 'left',
 							marginBottom: 5,
-							backgroundColor: '#8caac2',
-							color: 'white',
+							backgroundColor: colorSchemeState.accentBackground,
+							color: colorSchemeState.text,
 							padding: 10
 						}}>
 						{t('route.moreDepartures')}:
@@ -201,7 +210,7 @@ export default () => {
 									key={item}
 									style={{
 										width: '100%',
-										backgroundColor: index % 2 == 0 ? '#f5f5f5' : '#ffffff',
+										backgroundColor: index % 2 == 0 ? colorSchemeState.background : colorSchemeState.altBackground,
 										paddingBottom: 10,
 										paddingTop: 10,
 										paddingLeft: 10
@@ -211,7 +220,8 @@ export default () => {
 											style={{
 												fontSize: 20,
 												textAlign: 'left',
-												marginBottom: 5
+												marginBottom: 5,
+												color: colorSchemeState.text
 											}}>
 											{item && item['Info'] && (item['Info'] as Array<String>).length > 0 && '\u2B24 '}
 											{!isToday(item['DepartureTime']) && t('route.tomorrowAt')}
@@ -223,7 +233,8 @@ export default () => {
 										style={{
 											fontSize: 17,
 											textAlign: 'left',
-											marginBottom: 5
+											marginBottom: 5,
+											color: colorSchemeState.text
 										}}>
 										{item['FromHarbor']['Name']} → {item['ToHarbor']['Name']}
 										{item['Route']['Type']['Id'] == 1 && <Text> ({t('misc.returningTrip')})</Text>}

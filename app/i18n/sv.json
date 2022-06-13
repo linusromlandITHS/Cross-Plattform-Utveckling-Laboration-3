@@ -11,7 +11,7 @@
 		"tomorrowAt": "Imorgon kl. "
 	},
 	"about": {
-		"ferryDepartures": "Färjavgångar",
+		"ferryDepartures": "Färjeavgångar",
 		"description": "Detta är en app för att visa avgångar på färjerutter som körs av Färjerederiet (Trafikverket).",
 		"libility": "Appen är skapad av Linus Romland, Trafikverket ansvarar inte för eventuella brister i appen.",
 		"contact": "Kontakt och mer information finns på https://ferrydepartures.com/"
@@ -27,7 +27,7 @@
 	"welcome": {
 		"title": "Välkommen till Färjeavgångar",
 		"description": "Detta är en app för att visa avgångar på färjerutter som körs av Färjerederiet (Trafikverket).",
-		"buttonText": "Välj avgångar"
+		"buttonText": "Se färjerutter"
 	},
 	"misc": {
 		"close": "Stäng",

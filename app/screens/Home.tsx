@@ -1,6 +1,6 @@
 //External dependencies
 import { View, Text, InputAccessoryView, TextInput, Button, ScrollView, Platform, Pressable } from 'react-native';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
@@ -9,12 +9,18 @@ import { t } from 'i18n-js';
 //Internal dependencies
 import AboutModal from '../components/AboutModal';
 import WelcomeModal from '../components/WelcomeModal';
+import ColorSchemeContext from '../contexts/ColorSchemeContext';
+import { getColorScheme } from '../utils/appearance';
 
 export default () => {
-	// AsyncStorage.removeItem('hasSeenWelcome');
+	AsyncStorage.removeItem('hasSeenWelcome');
 
 	//Initialize useNavigation
 	const navigation = useNavigation();
+
+	//Initialize useContext
+	const colorScheme = useContext(ColorSchemeContext);
+	const [colorSchemeState] = useState(getColorScheme(colorScheme as string));
 
 	//Initialize AccessoryID for InputAccessoryView
 	const inputAccessoryViewID = 'searchFieldClearButton';
@@ -85,7 +91,7 @@ export default () => {
 	}
 
 	return (
-		<View style={{ flex: 1, alignItems: 'center', marginTop: 40, marginBottom: 110 }}>
+		<View style={{ flex: 1, alignItems: 'center', paddingTop: 40, paddingBottom: 110, height: '100%', backgroundColor: colorSchemeState.background }}>
 			<View
 				style={{
 					width: '100%',
@@ -98,12 +104,13 @@ export default () => {
 							fontSize: 35,
 							textAlign: 'left',
 							marginLeft: 15,
-							marginBottom: 5
+							marginBottom: 5,
+							color: colorSchemeState.text
 						}}>
 						<Text>{t('routes.selectRoute')}</Text>
 					</Text>
 					<Pressable onPress={() => setAboutModalVisible(true)} style={{ marginRight: 15 }}>
-						<AntDesign name='infocirlce' size={24} color='black' />
+						<AntDesign name='infocirlce' size={24} color={colorSchemeState.colorString} />
 					</Pressable>
 				</View>
 				<TextInput
