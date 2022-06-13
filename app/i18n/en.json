@@ -1,5 +1,21 @@
 {
 	"routes": {
-		"selectRoute": "Select Route"
+		"selectRoute": "Select Route",
+		"search": "Search for route",
+		"clear": "Clear"
+	},
+	"route": {
+		"nextDepartureFrom": "Next departure from",
+		"moreDepartures": "More departures",
+		"noDepartures": "No departures",
+		"tomorrowAt": "Tomorrow at ",
+		"returingTrip": "Returning trip"
+	},
+	"about": {
+		"ferryDepartures": "Ferry Departures",
+		"description": "This is a app to show the upcoming departures of ferries operated by the Swedish Färjerederiet (Trafikverket).",
+		"libility": "It is created by Linus Romland, Trafikverket is not liable for any flaws of the app.",
+		"contact": "Contact and more information is available at https://ferrydepartures.com/",
+		"close": "Close"
 	}
 }

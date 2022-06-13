@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import dayjs from 'dayjs';
+import { t } from 'i18n-js';
 
 //Internal dependencies
 import RouteInformationModal from '../components/RouteInformationModal';
@@ -145,7 +146,7 @@ export default () => {
 					color: 'white',
 					padding: 10
 				}}>
-				Next departure from {departures[0] ? departures[0]['FromHarbor']['Name'] : '...'}
+				{t('route.nextDepartureFrom')} {departures[0] ? departures[0]['FromHarbor']['Name'] : '...'}
 			</Text>
 
 			<Text
@@ -158,8 +159,8 @@ export default () => {
 					paddingLeft: 10
 				}}>
 				{departures.length > 0 && departures[0]['Info'] && (departures[0]['Info'] as Array<String>).length > 0 && '\u2B24 '}
-				{departures.length > 0 && !isToday(departures[0]['DepartureTime']) && 'Tomorrow at '}
-				{departures.length > 0 ? dayjs(departures[0]['DepartureTime']).format('HH:mm') : 'No departures'}
+				{departures.length > 0 && !isToday(departures[0]['DepartureTime']) && t('route.tomorrowAt')}
+				{departures.length > 0 ? dayjs(departures[0]['DepartureTime']).format('HH:mm') : t('route.noDepartures')}
 			</Text>
 			{departures.length > 0 && (
 				<>
@@ -173,7 +174,7 @@ export default () => {
 							marginBottom: 10
 						}}>
 						{departures[0]['FromHarbor']['Name']} → {departures[0]['ToHarbor']['Name']}
-						{departures[0]['Route']['Type']['Id'] == 1 && <Text> (Returning trip)</Text>}
+						{departures[0]['Route']['Type']['Id'] == 1 && <Text> ({t('route.returingTrip')})</Text>}
 					</Text>
 
 					<Text
@@ -186,7 +187,7 @@ export default () => {
 							color: 'white',
 							padding: 10
 						}}>
-						More Depatures:
+						{t('route.moreDepartures')}:
 					</Text>
 					<FlatList
 						style={{
@@ -213,7 +214,7 @@ export default () => {
 												marginBottom: 5
 											}}>
 											{item && item['Info'] && (item['Info'] as Array<String>).length > 0 && '\u2B24 '}
-											{!isToday(item['DepartureTime']) && 'Tomorrow at '}
+											{!isToday(item['DepartureTime']) && t('route.tomorrowAt')}
 											{dayjs(item['DepartureTime']).format('HH:mm')}
 										</Text>
 									</View>
@@ -225,7 +226,7 @@ export default () => {
 											marginBottom: 5
 										}}>
 										{item['FromHarbor']['Name']} → {item['ToHarbor']['Name']}
-										{item['Route']['Type']['Id'] == 1 && <Text> (Returning trip)</Text>}
+										{item['Route']['Type']['Id'] == 1 && <Text> ({t('route.returingTrip')})</Text>}
 									</Text>
 								</View>
 							</Pressable>

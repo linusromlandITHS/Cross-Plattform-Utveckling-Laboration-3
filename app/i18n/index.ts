@@ -13,7 +13,7 @@ const i18nInitialize = () => {
 		en,
 		sv
 	};
-	console.log(Localization.locale.split('-')[0]);
+	console.log('Locale set to', Localization.locale.split('-')[0]);
 
 	// Set the locale once at the beginning of your app.
 	i18n.locale = Localization.locale.split('-')[0];

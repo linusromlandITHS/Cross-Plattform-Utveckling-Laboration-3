@@ -118,7 +118,7 @@ export default () => {
 					inputAccessoryViewID={inputAccessoryViewID}
 					onChangeText={setSearch}
 					value={search}
-					placeholder='Search'
+					placeholder={t('routes.search')}
 					autoComplete={'off'}
 					autoCorrect={false}
 					returnKeyType={'search'}
@@ -163,7 +163,7 @@ export default () => {
 							style={{
 								backgroundColor: '#fff'
 							}}>
-							<Button onPress={() => setSearch('')} title='Clear' />
+							<Button onPress={() => setSearch('')} title={t('routes.clear')} />
 						</View>
 					</InputAccessoryView>
 				)}

@@ -1,5 +1,6 @@
 //External dependencies
 import { Modal, Text, View, Button } from 'react-native';
+import { t } from 'i18n-js';
 
 export default (props: any) => {
 	//Initialize data variables
@@ -29,7 +30,7 @@ export default (props: any) => {
 				<View
 					style={{
 						width: '100%',
-						height: '80%',
+						height: '40%',
 						backgroundColor: 'white',
 						borderRadius: 10,
 						margin: 25,
@@ -42,13 +43,13 @@ export default (props: any) => {
 							marginBottom: 20,
 							textAlign: 'center'
 						}}>
-						Ferry Departures
+						{t('about.ferryDepartures')}
 					</Text>
-					<Text style={defaultTextStyle}>This is a app to show the upcoming departures of ferries operated by the Swedish Färjerederiet (Trafikverket).</Text>
-					<Text style={defaultTextStyle}>It is created by Linus Romland, Trafikverket is not liable for any flaws of the app.</Text>
-					<Text style={defaultTextStyle}>Contact and more information is available at https://ferrydepartures.com/</Text>
+					<Text style={defaultTextStyle}>{t('about.description')}</Text>
+					<Text style={defaultTextStyle}>{t('about.libility')}</Text>
+					<Text style={defaultTextStyle}>{t('about.contact')}</Text>
 					<Button
-						title='Close'
+						title={t('about.close')}
 						onPress={() => {
 							setModalVisible(false);
 						}}
