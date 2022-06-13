@@ -1,5 +1,5 @@
 //External dependencies
-import { View, Text, InputAccessoryView, TextInput, Button, ScrollView, Platform, Pressable } from 'react-native';
+import { View, Text, InputAccessoryView, TextInput, Button, ScrollView, SectionList, Platform, Pressable } from 'react-native';
 import { useEffect, useState, useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, CommonActions } from '@react-navigation/native';
@@ -13,7 +13,7 @@ import ColorSchemeContext from '../contexts/ColorSchemeContext';
 import { getColorScheme } from '../utils/appearance';
 
 export default () => {
-	AsyncStorage.removeItem('hasSeenWelcome');
+	// AsyncStorage.removeItem('hasSeenWelcome');
 
 	//Initialize useNavigation
 	const navigation = useNavigation();
@@ -133,36 +133,35 @@ export default () => {
 			</View>
 			<View
 				style={{
-					width: '100%',
-					marginTop: 20
+					width: '95%',
+					marginBottom: 15
 				}}>
-				<ScrollView
-					style={{
-						width: '100%'
-					}}>
-					{routes
-						.filter((route: any) => {
-							return route.Name.toLowerCase().includes(search.toLowerCase());
-						})
-						.map((route) => (
+				<SectionList
+					sections={
+						routes.length > 0
+							? [
+									{
+										data: routes
+									}
+							  ]
+							: []
+					}
+					renderItem={({ item }) => (
+						<Pressable onPress={() => handleRouteSelection(item)}>
 							<View
-								key={route['Id']}
 								style={{
-									marginLeft: 20,
-									marginRight: 20,
-									marginBottom: 10
+									width: '100%',
+									flexDirection: 'row',
+									justifyContent: 'space-between',
+									borderBottomColor: colorSchemeState.accentBackground,
+									borderBottomWidth: 1
 								}}>
-								<Button
-									title={route['Name']}
-									color={Platform.OS === 'android' ? '#8caac2' : ''}
-									onPress={() => {
-										handleRouteSelection(route);
-									}}
-								/>
+								<Text style={{ padding: 10, fontSize: 18, height: 44, color: colorSchemeState.text }}>{item['Name']}</Text>
+								<Text style={{ padding: 10, fontSize: 14, height: 44, color: colorSchemeState.text }}>{'>'}</Text>
 							</View>
-						))}
-				</ScrollView>
-
+						</Pressable>
+					)}
+				/>
 				{/* Only shows the InputAccessoryView on Apple IOS */}
 				{Platform.OS === 'ios' && (
 					<InputAccessoryView nativeID={inputAccessoryViewID}>

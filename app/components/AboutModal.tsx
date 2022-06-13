@@ -40,7 +40,7 @@ export default (props: any) => {
 				<View
 					style={{
 						width: '100%',
-						height: '40%',
+						height: '50%',
 						backgroundColor: colorSchemeState.background,
 						borderRadius: 10,
 						margin: 25,

@@ -9,7 +9,7 @@ import ColorSchemeContext from './contexts/ColorSchemeContext';
 const { getColorScheme } = Appearance;
 
 function App() {
-	const [colorScheme] = useState('dark');
+	const [colorScheme] = useState('light');
 
 	console.log('Color scheme is set to', colorScheme);
 
