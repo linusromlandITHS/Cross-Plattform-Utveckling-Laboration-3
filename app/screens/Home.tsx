@@ -1,5 +1,5 @@
 //External dependencies
-import { View, Text, InputAccessoryView, TextInput, Button, ScrollView, SectionList, Platform, Pressable } from 'react-native';
+import { View, Text, InputAccessoryView, TextInput, Button, SectionList, Platform, Pressable } from 'react-native';
 import { useEffect, useState, useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, CommonActions } from '@react-navigation/native';
