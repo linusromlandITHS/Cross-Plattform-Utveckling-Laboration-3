@@ -143,7 +143,7 @@ export default () => {
 					numberOfLines={1}>
 					{routeName}
 				</Text>
-				<Button title='Change route' onPress={handleChangeRoute}></Button>
+				<Button title={t('route.changeRoute')} onPress={handleChangeRoute}></Button>
 			</View>
 			<Text
 				style={{

@@ -8,7 +8,8 @@
 		"nextDepartureFrom": "Nästa avgång från",
 		"moreDepartures": "Mer avgångar",
 		"noDepartures": "Inga avgångar",
-		"tomorrowAt": "Imorgon kl. "
+		"tomorrowAt": "Imorgon kl. ",
+		"changeRoute": "Ändra färjerutt"
 	},
 	"about": {
 		"ferryDepartures": "Färjeavgångar",

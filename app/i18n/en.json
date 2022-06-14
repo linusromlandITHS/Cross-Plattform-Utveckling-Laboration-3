@@ -8,7 +8,8 @@
 		"nextDepartureFrom": "Next departure from",
 		"moreDepartures": "More departures",
 		"noDepartures": "No departures",
-		"tomorrowAt": "Tomorrow at "
+		"tomorrowAt": "Tomorrow at ",
+		"changeRoute": "Change route"
 	},
 	"about": {
 		"ferryDepartures": "Ferry Departures",
