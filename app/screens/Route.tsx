@@ -6,6 +6,7 @@ import { useNavigation, CommonActions } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { t } from 'i18n-js';
 import { AntDesign } from '@expo/vector-icons';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 //Internal dependencies
 import RouteInformationModal from '../components/RouteInformationModal';
@@ -123,7 +124,7 @@ export default () => {
 	}
 
 	return (
-		<SafeAreaView style={{ flex: 1, paddingBottom: Platform.OS == 'android' ? 20 : 0, paddingTop: Platform.OS == 'android' ? 40 : 20, backgroundColor: colorSchemeState.background }}>
+		<SafeAreaView style={{ flex: 1, paddingBottom: Platform.OS == 'android' ? 20 : 0, paddingTop: getStatusBarHeight(), backgroundColor: colorSchemeState.background }}>
 			<View
 				style={{
 					flexDirection: 'row',
