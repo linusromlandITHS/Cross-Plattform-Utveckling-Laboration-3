@@ -167,8 +167,7 @@ export default () => {
 					paddingLeft: 10,
 					color: colorSchemeState.text
 				}}>
-				{departures.length > 0 && departures[0]['Info'] && (departures[0]['Info'] as Array<String>).length > 0 && '\u2B24 '}
-				{departures.length > 0 && !isToday(departures[0]['DepartureTime']) && t('route.tomorrowAt')}
+				{departures.length > 0 && departures[0]['Info'] && (departures[0]['Info'] as Array<String>).length > 0 && <AntDesign name='infocirlce' size={18} color={colorSchemeState.colorString} />} {departures.length > 0 && !isToday(departures[0]['DepartureTime']) && t('route.tomorrowAt')}
 				{departures.length > 0 ? dayjs(departures[0]['DepartureTime']).format('HH:mm') : t('route.noDepartures')}
 			</Text>
 			{departures.length > 0 && (
