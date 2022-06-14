@@ -156,24 +156,24 @@ export default () => {
 				}}>
 				{t('route.nextDepartureFrom')} {departures[0] ? departures[0]['FromHarbor']['Name'] : '...'}
 			</Text>
-
-			<Text
-				style={{
-					fontSize: 20,
-					width: '100%',
-					textAlign: 'left',
-					marginBottom: 5,
-					marginTop: 10,
-					paddingLeft: 10,
-					color: colorSchemeState.text
-				}}>
-				{departures.length > 0 && departures[0]['Info'] && (departures[0]['Info'] as Array<String>).length > 0 && <AntDesign name='infocirlce' size={18} color={colorSchemeState.colorString} />} {departures.length > 0 && !isToday(departures[0]['DepartureTime']) && t('route.tomorrowAt')}
-				{departures.length > 0 ? dayjs(departures[0]['DepartureTime']).format('HH:mm') : t('route.noDepartures')}
-			</Text>
+			<Pressable onPress={() => handleShowRouteInformationModal(departures[0])}>
+				<Text
+					style={{
+						fontSize: 20,
+						width: '100%',
+						textAlign: 'left',
+						marginBottom: 5,
+						marginTop: 10,
+						paddingLeft: 10,
+						color: colorSchemeState.text
+					}}>
+					{departures.length > 0 && departures[0]['Info'] && (departures[0]['Info'] as Array<String>).length > 0 && <AntDesign name='infocirlce' size={18} color={colorSchemeState.colorString} />} {departures.length > 0 && !isToday(departures[0]['DepartureTime']) && t('route.tomorrowAt')}
+					{departures.length > 0 ? dayjs(departures[0]['DepartureTime']).format('HH:mm') : t('route.noDepartures')}
+				</Text>
+			</Pressable>
 			{departures.length > 0 && (
 				<>
 					<Text
-						onPress={() => handleShowRouteInformationModal(departures[0])}
 						style={{
 							fontSize: 20,
 							paddingLeft: 10,
