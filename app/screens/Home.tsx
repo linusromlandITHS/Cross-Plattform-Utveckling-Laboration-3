@@ -6,6 +6,7 @@ import { useNavigation, CommonActions } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { t } from 'i18n-js';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 //Internal dependencies
 import AboutModal from '../components/AboutModal';
@@ -98,7 +99,7 @@ export default () => {
 					width: '100%',
 					alignItems: 'center'
 				}}>
-				<View style={{ width: '100%', alignItems: 'center', backgroundColor: colorSchemeState.accentBackground, padding: 10, paddingTop: 40 }}>
+				<View style={{ width: '100%', alignItems: 'center', backgroundColor: colorSchemeState.accentBackground, padding: 10, paddingTop: getStatusBarHeight() }}>
 					<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
 						<Text
 							style={{
