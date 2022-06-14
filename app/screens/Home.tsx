@@ -143,7 +143,7 @@ export default () => {
 						routes.length > 0
 							? [
 									{
-										data: routes
+										data: routes.filter((route: any) => route.Name.toLowerCase().includes(search.toLowerCase()))
 									}
 							  ]
 							: []
