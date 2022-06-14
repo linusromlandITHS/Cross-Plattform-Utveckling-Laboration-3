@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { t } from 'i18n-js';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 //Internal dependencies
 import AboutModal from '../components/AboutModal';
@@ -13,7 +14,7 @@ import ColorSchemeContext from '../contexts/ColorSchemeContext';
 import { getColorScheme } from '../utils/appearance';
 
 export default () => {
-	// AsyncStorage.removeItem('hasSeenWelcome');
+	//AsyncStorage.removeItem('hasSeenWelcome');
 
 	//Initialize useNavigation
 	const navigation = useNavigation();
@@ -91,7 +92,7 @@ export default () => {
 	}
 
 	return (
-		<View style={{ flex: 1, alignItems: 'center', paddingBottom: 110, height: '100%', backgroundColor: colorSchemeState.background }}>
+		<SafeAreaProvider style={{ flex: 1, alignItems: 'center', paddingBottom: 140, height: '100%', backgroundColor: colorSchemeState.background }}>
 			<View
 				style={{
 					width: '100%',
@@ -179,6 +180,6 @@ export default () => {
 				<WelcomeModal modalVisible={WelcomeModalVisible} setModalVisible={setWelcomeModalVisible} />
 				<AboutModal modalVisible={AboutModalVisible} setModalVisible={setAboutModalVisible} />
 			</View>
-		</View>
+		</SafeAreaProvider>
 	);
 };
