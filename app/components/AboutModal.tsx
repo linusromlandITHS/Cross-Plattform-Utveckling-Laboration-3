@@ -41,7 +41,7 @@ export default (props: any) => {
 					style={{
 						width: '100%',
 						height: '50%',
-						backgroundColor: colorSchemeState.background,
+						backgroundColor: colorSchemeState.accentBackground,
 						borderRadius: 10,
 						margin: 25,
 						padding: 25

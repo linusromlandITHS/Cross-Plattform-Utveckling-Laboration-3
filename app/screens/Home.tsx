@@ -91,45 +91,47 @@ export default () => {
 	}
 
 	return (
-		<View style={{ flex: 1, alignItems: 'center', paddingTop: 40, paddingBottom: 110, height: '100%', backgroundColor: colorSchemeState.background }}>
+		<View style={{ flex: 1, alignItems: 'center', paddingBottom: 110, height: '100%', backgroundColor: colorSchemeState.background }}>
 			<View
 				style={{
 					width: '100%',
-					alignItems: 'center',
-					padding: 10
+					alignItems: 'center'
 				}}>
-				<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-					<Text
+				<View style={{ width: '100%', alignItems: 'center', backgroundColor: colorSchemeState.accentBackground, padding: 10, paddingTop: 40 }}>
+					<View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+						<Text
+							style={{
+								fontSize: 35,
+								textAlign: 'left',
+								marginLeft: 15,
+								marginBottom: 5,
+								marginTop: 10,
+								color: colorSchemeState.text
+							}}>
+							<Text>{t('routes.selectRoute')}</Text>
+						</Text>
+						<Pressable onPress={() => setAboutModalVisible(true)} style={{ marginRight: 15 }}>
+							<AntDesign name='infocirlce' size={24} color={colorSchemeState.colorString} />
+						</Pressable>
+					</View>
+					<TextInput
 						style={{
-							fontSize: 35,
-							textAlign: 'left',
-							marginLeft: 15,
-							marginBottom: 5,
-							color: colorSchemeState.text
-						}}>
-						<Text>{t('routes.selectRoute')}</Text>
-					</Text>
-					<Pressable onPress={() => setAboutModalVisible(true)} style={{ marginRight: 15 }}>
-						<AntDesign name='infocirlce' size={24} color={colorSchemeState.colorString} />
-					</Pressable>
+							width: '95%',
+							borderColor: 'gray',
+							borderWidth: 1,
+							padding: 10,
+							borderRadius: 15,
+							backgroundColor: '#fff'
+						}}
+						inputAccessoryViewID={inputAccessoryViewID}
+						onChangeText={setSearch}
+						value={search}
+						placeholder={t('routes.search')}
+						autoComplete={'off'}
+						autoCorrect={false}
+						returnKeyType={'search'}
+					/>
 				</View>
-				<TextInput
-					style={{
-						width: '95%',
-						borderColor: 'gray',
-						borderWidth: 1,
-						padding: 10,
-						borderRadius: 15,
-						backgroundColor: '#fff'
-					}}
-					inputAccessoryViewID={inputAccessoryViewID}
-					onChangeText={setSearch}
-					value={search}
-					placeholder={t('routes.search')}
-					autoComplete={'off'}
-					autoCorrect={false}
-					returnKeyType={'search'}
-				/>
 			</View>
 			<View
 				style={{
