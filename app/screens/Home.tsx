@@ -22,7 +22,7 @@ export default () => {
 
 	//Initialize useContext
 	const colorScheme = useContext(ColorSchemeContext);
-	const [colorSchemeState] = useState(getColorScheme(colorScheme as string));
+	const [colorSchemeState] = useState(getColorScheme(colorScheme as any));
 
 	//Initialize AccessoryID for InputAccessoryView
 	const inputAccessoryViewID = 'searchFieldClearButton';

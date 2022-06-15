@@ -21,7 +21,7 @@ export default (props: any) => {
 
 	//Initialize useContext
 	const colorScheme = useContext(ColorSchemeContext);
-	const [colorSchemeState] = useState(getColorScheme(colorScheme as string));
+	const [colorSchemeState] = useState(getColorScheme(colorScheme as any));
 
 	//Initialize useEffect
 	useEffect(() => {
