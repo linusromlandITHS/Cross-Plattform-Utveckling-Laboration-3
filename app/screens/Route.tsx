@@ -27,7 +27,7 @@ export default () => {
 
 	//Initialize useContext
 	const colorScheme = useContext(ColorSchemeContext);
-	const [colorSchemeState] = useState(getColorScheme(colorScheme as string));
+	const [colorSchemeState] = useState(getColorScheme(colorScheme as any));
 
 	useEffect(() => {
 		//Get the route name and departures

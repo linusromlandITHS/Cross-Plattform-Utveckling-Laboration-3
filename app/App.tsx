@@ -16,7 +16,7 @@ function App() {
 	i18nInitialize();
 
 	return (
-		<ColorSchemeContext.Provider value={colorScheme}>
+		<ColorSchemeContext.Provider value={colorScheme as any}>
 			<Router />
 		</ColorSchemeContext.Provider>
 	);

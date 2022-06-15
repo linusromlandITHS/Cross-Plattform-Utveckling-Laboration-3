@@ -122,6 +122,7 @@ export default () => {
 							borderColor: 'gray',
 							borderWidth: 1,
 							padding: 10,
+							color: colorSchemeState.invertedText,
 							borderRadius: 15,
 							backgroundColor: '#fff'
 						}}
@@ -129,6 +130,7 @@ export default () => {
 						onChangeText={setSearch}
 						value={search}
 						placeholder={t('routes.search')}
+						placeholderTextColor={colorSchemeState.invertedText}
 						autoComplete={'off'}
 						autoCorrect={false}
 						returnKeyType={'search'}
